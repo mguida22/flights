@@ -1,0 +1,14 @@
+.land {
+  fill: #CCC;
+}
+
+.county-boundary {
+  fill: none;
+  stroke: #444;
+  stroke-width: .5px;
+}
+
+.state-boundary {
+  fill: none;
+  stroke: #000;
+}
