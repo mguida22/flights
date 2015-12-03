@@ -17,18 +17,36 @@ d3.json("data/us.json", function(err, us) {
     return console.error(err);
   }
 
-  svg.insert("path", ".graticule")
+  d3.csv("data/airport-codes.csv", function(err, airports) {
+    if (err) {
+      return console.error(err);
+    }
+
+    svg.insert("path", ".graticule")
       .datum(topojson.feature(us, us.objects.land))
       .attr("class", "land")
       .attr("d", path);
 
-  svg.insert("path", ".graticule")
+    svg.insert("path", ".graticule")
       .datum(topojson.mesh(us, us.objects.counties, function(a, b) { return a !== b && !(a.id / 1000 ^ b.id / 1000); }))
       .attr("class", "county-boundary")
       .attr("d", path);
 
-  svg.insert("path", ".graticule")
+    svg.insert("path", ".graticule")
       .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
       .attr("class", "state-boundary")
       .attr("d", path);
+
+    svg.append("svg:g")
+      .attr("id", "circles")
+      .selectAll("circle")
+        .data(airports)
+      .enter().append("svg:circle")
+        .attr('transform', function (d) {
+          return 'translate(' +
+              projection([d.Longitude * -1, d.Latitude]) +
+          ')';
+        })
+        .attr("r", 2);
+  });
 });
