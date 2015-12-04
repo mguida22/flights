@@ -22,31 +22,44 @@ d3.json("data/us.json", function(err, us) {
       return console.error(err);
     }
 
-    svg.insert("path", ".graticule")
-      .datum(topojson.feature(us, us.objects.land))
-      .attr("class", "land")
-      .attr("d", path);
+    d3.json("data/delays.json", function(err, delays) {
+      if (err) {
+        return console.error(err);
+      }
 
-    svg.insert("path", ".graticule")
-      .datum(topojson.mesh(us, us.objects.counties, function(a, b) { return a !== b && !(a.id / 1000 ^ b.id / 1000); }))
-      .attr("class", "county-boundary")
-      .attr("d", path);
+      delays = delays['2008-01-01'];
 
-    svg.insert("path", ".graticule")
-      .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
-      .attr("class", "state-boundary")
-      .attr("d", path);
+      svg.insert("path", ".graticule")
+        .datum(topojson.feature(us, us.objects.land))
+        .attr("class", "land")
+        .attr("d", path);
 
-    svg.append("svg:g")
-      .attr("id", "circles")
-      .selectAll("circle")
-        .data(airports)
-      .enter().append("svg:circle")
-        .attr('transform', function (d) {
-          return 'translate(' +
+      svg.insert("path", ".graticule")
+        .datum(topojson.mesh(us, us.objects.counties, function(a, b) { return a !== b && !(a.id / 1000 ^ b.id / 1000); }))
+        .attr("class", "county-boundary")
+        .attr("d", path);
+
+      svg.insert("path", ".graticule")
+        .datum(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; }))
+        .attr("class", "state-boundary")
+        .attr("d", path);
+
+      svg.append("svg:g")
+        .attr("id", "circles")
+        .selectAll("circle")
+          .data(airports)
+        .enter().append("svg:circle")
+          .attr('transform', function (d) {
+            return 'translate(' +
               projection([d.Longitude * -1, d.Latitude]) +
-          ')';
-        })
-        .attr("r", 2);
+            ')';
+          })
+          .attr("r", function(d) {
+            if (delays[d.locationID] > 0) {
+              return delays[d.locationID] * 0.3;
+            }
+            return 0;
+          });
+    });
   });
 });
