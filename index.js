@@ -12,7 +12,55 @@ var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 
-function display(us, airports, delays) {
+function updateDelays(us, airports, delays) {
+  delete(delays['0-00-00']);
+
+  var start = moment('2008-01-01');
+  var end = moment('2009-01-01');
+  var current = start;
+
+  function f() {
+    delay = delays[current.format('YYYY-MM-DD')];
+
+    svg.selectAll("circle").remove();
+
+    svg.append("svg:g")
+      .attr("id", "circles")
+      .selectAll("circle")
+        .data(airports)
+      .enter().append("svg:circle")
+        .attr('transform', function (d) {
+          proj = projection([d.Longitude * -1, d.Latitude]);
+          if (proj !== null) {
+            return 'translate(' +
+              proj +
+            ')';
+          }
+          return null;
+        })
+        .attr("r", function(d) {
+          if (delay[d.locationID] > 0) {
+            r = delay[d.locationID] * 0.3;
+            if (r !== null) {
+              return r;
+            }
+          }
+          return 0;
+        });
+
+    current.add(1, 'days');
+    if(current.isBefore(end)){
+      setTimeout(f, 30);
+    }
+  }
+  f();
+}
+
+function display(err, us, airports, delays) {
+  if (err) {
+    return console.error(err);
+  }
+
   var r, proj;
 
   svg.insert("path", ".graticule")
@@ -30,42 +78,11 @@ function display(us, airports, delays) {
     .attr("class", "state-boundary")
     .attr("d", path);
 
-  svg.append("svg:g")
-    .attr("id", "circles")
-    .selectAll("circle")
-      .data(airports)
-    .enter().append("svg:circle")
-      .attr('transform', function (d) {
-        proj = projection([d.Longitude * -1, d.Latitude]);
-        if (proj !== null) {
-          return 'translate(' +
-            proj +
-          ')';
-        }
-        return null;
-      })
-      .attr("r", function(d) {
-        if (delays[d.locationID] > 0) {
-          r = delays[d.locationID] * 0.3;
-          if (r !== null) {
-            return r;
-          }
-        }
-        return 0;
-      });
-}
-
-function ready(err, us, airports, delays) {
-  if (err) {
-    return console.error(err);
-  }
-
-  delays = delays['2008-01-01'];
-  display(us, airports, delays);
+  updateDelays(us, airports, delays);
 }
 
 queue()
   .defer(d3.json, "data/us.json")
   .defer(d3.csv, "data/airport-codes.csv")
   .defer(d3.json, "data/delays.json")
-  .await(ready);
+  .await(display);
