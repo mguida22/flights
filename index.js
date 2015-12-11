@@ -13,14 +13,12 @@ var svg = d3.select("body").append("svg")
     .attr("height", height);
 
 function updateDelays(us, airports, delays) {
-  delete(delays['0-00-00']);
-
   var start = moment('2008-01-01');
   var end = moment('2009-01-01');
   var current = start;
 
   function f() {
-    delay = delays[current.format('YYYY-MM-DD')];
+    delay = delays[current.format('YYYY-M-D')];
 
     svg.selectAll("circle").remove();
 
@@ -48,9 +46,10 @@ function updateDelays(us, airports, delays) {
           return 0;
         });
 
+    document.getElementById('current-date').innerHTML = current.format('M/D/YYYY');
     current.add(1, 'days');
     if(current.isBefore(end)){
-      setTimeout(f, 30);
+      setTimeout(f, 50);
     }
   }
   f();

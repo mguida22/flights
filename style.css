@@ -1,3 +1,12 @@
+* {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+h1, h3 {
+  color: #333;
+}
+
 .land {
   fill: #CCC;
 }
