@@ -6,19 +6,21 @@ A visual representation of U.S. domestic flight delays across the year 2008. The
 
 ## Setup
 
-Grab the data from [stat-computing.org](http://stat-computing.org/dataexpo/2009/the-data.html). Once you have the data run `reduce.py` and then `delays.py` to calculate and condense the data. You will need a file server running to see the site. An example may look like this.
+Grab the data from [stat-computing.org](http://stat-computing.org/dataexpo/2009/the-data.html). Once you have the data run `delays.py` to calculate and condense the data. You will need a file server running to see the site. An example may look like this.
 
 ```
 # Data saved to data/2008.csv
 $ cd data/
-$ python3 reduce.py
 $ python3 delays.py
 $ cd ..
 $ python3 -m http.server
 ```
- Once your data is processed, you will only need a simple file server for future uses.
+
+You will also need to grab the [airport-codes.csv](https://github.com/mguida22/flights/blob/gh-pages/data/airport-codes.csv) and [us.json](https://github.com/mguida22/flights/blob/gh-pages/data/us.json) and place them in the `data/` directory. Once your data is processed, you will only need a simple file server for future uses.
 
 ### License
 MIT
 
-Flight data originally from U.S. Department of Transportation and retrieved from [stat-computing.org](http://stat-computing.org/dataexpo/2009/the-data.html)
+Flight data originally from U.S. Department of Transportation and retrieved from [stat-computing.org](http://stat-computing.org/dataexpo/2009/the-data.html).<br>
+Airport location data from [openflights.org](http://openflights.org/).<br>
+US map data from [mbostock](http://bl.ocks.org/mbostock/raw/4090846/us.json).
