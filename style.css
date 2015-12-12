@@ -23,6 +23,12 @@ h1, h3 {
 }
 
 circle {
-  fill: red;
   fill-opacity: .8;
+  fill: #4d0000;
 }
+
+.q0-5 { fill: #f1de36; }
+.q1-5 { fill: #ffbf00; }
+.q2-5 { fill: #ff8000; }
+.q3-5 { fill: #ff4000; }
+.q4-5 { fill: #ff0000; }

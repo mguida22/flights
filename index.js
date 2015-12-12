@@ -12,6 +12,10 @@ var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 
+var quantize = d3.scale.quantize()
+    .domain([0, 200])
+    .range(d3.range(5).map(function(i) { return "q" + i + "-5"; }));
+
 function updateDelays(us, airports, delays) {
   var start = moment('2008-01-01');
   var end = moment('2009-01-01');
@@ -27,6 +31,11 @@ function updateDelays(us, airports, delays) {
       .selectAll("circle")
         .data(airports)
       .enter().append("svg:circle")
+        .attr("class", function(d) {
+          if (delay[d.locationID] > 0) {
+            return quantize(delay[d.locationID]);
+          }
+        })
         .attr('transform', function (d) {
           proj = projection([d.Longitude * -1, d.Latitude]);
           if (proj !== null) {

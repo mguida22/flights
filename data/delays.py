@@ -48,6 +48,9 @@ with open('2008-flights.csv', newline='') as f:
 for date in sums:
     for airport in sums[date]:
         sums[date][airport] = sums[date][airport] / counts[date][airport]
+        # only have delays, do not count when ahead of schedule
+        if (sums[date][airport] < 0):
+            sums[date][airport] = 0
 
 with open('delays.json', 'w') as f:
     # Pretty printed
