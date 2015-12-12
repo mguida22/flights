@@ -58,7 +58,7 @@ function updateDelays(us, airports, delays) {
     document.getElementById('current-date').innerHTML = current.format('M/D/YYYY');
     current.add(1, 'days');
     if(current.isBefore(end)){
-      setTimeout(f, 50);
+      setTimeout(f, 1000);
     }
   }
   f();
