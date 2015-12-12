@@ -1,20 +1,20 @@
 var width = 960,
-    height = 500;
+  height = 500;
 
 var projection = d3.geo.albersUsa()
-    .scale(1000)
-    .translate([width / 2, height / 2]);
+  .scale(1000)
+  .translate([width / 2, height / 2]);
 
 var path = d3.geo.path()
-    .projection(projection);
+  .projection(projection);
 
 var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height);
+  .attr("width", width)
+  .attr("height", height);
 
 var quantize = d3.scale.quantize()
-    .domain([0, 200])
-    .range(d3.range(5).map(function(i) { return "q" + i + "-5"; }));
+  .domain([0, 200])
+  .range(d3.range(5).map(function(i) { return "q" + i + "-5"; }));
 
 function updateDelays(us, airports, delays) {
   var start = moment('2008-01-01');

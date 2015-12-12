@@ -4,6 +4,8 @@ A visual representation of U.S. domestic flight delays across the year 2008. The
 
 ![screenshot of delays](https://cloud.githubusercontent.com/assets/9451227/11758676/59f040fe-a02b-11e5-976c-8eb4f355bc23.png)
 
+[Live Demo.](mguida22.github.io/flights)
+
 ## Setup
 
 Grab the data from [stat-computing.org](http://stat-computing.org/dataexpo/2009/the-data.html). Once you have the data run `delays.py` to calculate and condense the data. You will need a file server running to see the site. An example may look like this.
