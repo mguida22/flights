@@ -2,6 +2,7 @@
 
 import csv
 import json
+import os
 
 sums = {}
 counts = {}
@@ -58,3 +59,8 @@ with open('delays.json', 'w') as f:
     print(json.dumps(sums), file=f)
 
 print('Finished. Data saved to delays.json')
+print('Cleaning up.')
+
+os.remove('./2008-flights.csv')
+
+print('Finished.')
