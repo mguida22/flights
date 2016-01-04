@@ -3,24 +3,28 @@
 import csv
 import json
 import os
+import sys
 
 sums = {}
 counts = {}
 
+infile_path = sys.argv[1]
+tmpfile_path = 'tmp.csv'
+
 print('Reducing data. This may take a long time.')
 
-outfile = open('2008-flights.csv', 'w')
-with open('2008.csv', newline='') as infile:
+tmpfile = open(tmpfile_path, 'w')
+with open(infile_path, newline='') as infile:
     reader = csv.reader(infile, delimiter=',')
     for row in reader:
-        outfile.write(row[0]+"-"+row[1]+"-"+row[2]+" "+row[15]+" "+row[16]+"\n")
+        tmpfile.write(row[0]+"-"+row[1]+"-"+row[2]+" "+row[15]+" "+row[16]+"\n")
 
-outfile.close()
+tmpfile.close()
 
 print("Finished.")
 print('Averaging delay data by date for each airport.')
 
-with open('2008-flights.csv', newline='') as f:
+with open(tmpfile_path, newline='') as f:
     next(f)
     reader = csv.reader(f, delimiter=' ')
     for row in reader:
@@ -61,6 +65,6 @@ with open('delays.json', 'w') as f:
 print('Finished. Data saved to delays.json')
 print('Cleaning up.')
 
-os.remove('./2008-flights.csv')
+os.remove(tmpfile_path)
 
 print('Finished.')
