@@ -8,6 +8,17 @@ A visual representation of U.S. domestic flight delays across the year 2008. The
 
 ## Setup
 
+### Automatic
+
+Use the fancy setup script!
+
+```
+$ cd data/
+$ ./setup.sh
+```
+
+### Manual
+
 Grab the data from [stat-computing.org](http://stat-computing.org/dataexpo/2009/the-data.html). Once you have the data run `delays.py` to calculate and condense the data. You will need a file server running to see the site. An example may look like this.
 
 ```
